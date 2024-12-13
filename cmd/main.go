@@ -60,7 +60,7 @@ func main() {
 	cmdRestore.Flags().BoolVarP(&pin, "pin", "p", false, "Pin the extension versions")
 
 	rootCmd := &cobra.Command{Use: "gh-exact"}
-	rootCmd.PersistentFlags().StringVarP(&filePath, "file", "f", "extensions.yaml", "extension file path (default: extensions.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&filePath, "file", "f", "extensions.toml", "extension file path (default: extensions.toml)")
 
 	rootCmd.AddCommand(cmdSave, cmdRestore)
 	if err := rootCmd.ExecuteContext(context.Background()); err != nil {

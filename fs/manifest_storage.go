@@ -6,7 +6,7 @@ import (
 	"time"
 
 	exact "github.com/williammartin/gh-exact"
-	"gopkg.in/yaml.v3"
+	"github.com/pelletier/go-toml"
 )
 
 type ManifestStorage struct {
@@ -34,7 +34,7 @@ func (m ManifestStorage) Store(manifest exact.Manifest) error {
 		Extensions: extensionDTOs,
 	}
 
-	if err := yaml.NewEncoder(f).Encode(mDTO); err != nil {
+	if err := toml.NewEncoder(f).Encode(mDTO); err != nil {
 		return fmt.Errorf("store: writing manifest: %v", err)
 	}
 
@@ -48,7 +48,7 @@ func (m ManifestStorage) Load() (exact.Manifest, error) {
 	}
 
 	var mDTO manifestDTO
-	if err := yaml.NewDecoder(f).Decode(&mDTO); err != nil {
+	if err := toml.NewDecoder(f).Decode(&mDTO); err != nil {
 		return exact.Manifest{}, fmt.Errorf("load: reading manifest: %v", err)
 	}
 
@@ -68,12 +68,12 @@ func (m ManifestStorage) Load() (exact.Manifest, error) {
 }
 
 type manifestDTO struct {
-	CreatedAt  time.Time      `yaml:"created_at"`
-	Extensions []extensionDTO `yaml:"extensions"`
+	CreatedAt  time.Time      `toml:"created_at"`
+	Extensions []extensionDTO `toml:"extensions"`
 }
 
 type extensionDTO struct {
-	Name    string `yaml:"name"`
-	Repo    string `yaml:"repo"`
-	Version string `yaml:"version"`
+	Name    string `toml:"name"`
+	Repo    string `toml:"repo"`
+	Version string `toml:"version"`
 }
